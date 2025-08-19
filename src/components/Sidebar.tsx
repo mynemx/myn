@@ -20,7 +20,7 @@ import {
   FiChevronLeft,
   FiChevronRight,
 } from 'react-icons/fi';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuthStore } from '../stores/authStore';
 
 interface SidebarProps {
   isCollapsed: boolean;
@@ -71,7 +71,7 @@ const NavItem = ({
 );
 
 export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
-  const { user } = useAuth();
+  const { user } = useAuthStore();
   const bg = useColorModeValue('white', 'gray.800');
   const borderColor = useColorModeValue('gray.200', 'gray.700');
 

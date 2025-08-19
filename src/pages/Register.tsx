@@ -20,7 +20,7 @@ import { FaGoogle, FaGithub } from 'react-icons/fa';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuthStore } from '../stores/authStore';
 import { PasswordStrengthMeter } from '../components/PasswordStrengthMeter';
 
 const RegisterSchema = Yup.object().shape({
@@ -37,7 +37,7 @@ const RegisterSchema = Yup.object().shape({
 
 export const Register: React.FC = () => {
   const [acceptTerms, setAcceptTerms] = useState(false);
-  const { register, loading } = useAuth();
+  const { register, loading } = useAuthStore();
   const navigate = useNavigate();
   const toast = useToast();
 

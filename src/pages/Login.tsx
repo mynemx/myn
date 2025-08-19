@@ -22,7 +22,7 @@ import { FaGoogle, FaGithub } from 'react-icons/fa';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuthStore } from '../stores/authStore';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email is required'),
@@ -31,7 +31,7 @@ const LoginSchema = Yup.object().shape({
 
 export const Login: React.FC = () => {
   const [rememberMe, setRememberMe] = useState(false);
-  const { login, loading } = useAuth();
+  const { login, loading } = useAuthStore();
   const navigate = useNavigate();
   const toast = useToast();
 
