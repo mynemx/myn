@@ -22,7 +22,6 @@ import {
   MenuList,
   MenuItem,
   Select,
-  Input,
   Popover,
   PopoverTrigger,
   PopoverContent,
@@ -74,9 +73,10 @@ const SortableHeader = ({
   onSort: (field: keyof ApiUser) => void;
 }) => {
   const isActive = sortField === field;
+  const hoverBg = useColorModeValue('gray.50', 'gray.700');
   
   return (
-    <Th cursor="pointer" onClick={() => onSort(field)} _hover={{ bg: useColorModeValue('gray.50', 'gray.700') }}>
+    <Th cursor="pointer" onClick={() => onSort(field)} _hover={{ bg: hoverBg }}>
       <HStack spacing={1}>
         <Text>{children}</Text>
         <Box>
@@ -168,6 +168,9 @@ export const UserTable: React.FC = () => {
   } = useUserStore();
 
   const bg = useColorModeValue('white', 'gray.800');
+  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const hoverBg = useColorModeValue('gray.50', 'gray.700');
+  const headerBg = useColorModeValue('gray.50', 'gray.700');
   
   const handleSort = (field: keyof ApiUser) => {
     const newDirection = sortField === field && sortDirection === 'asc' ? 'desc' : 'asc';
@@ -186,7 +189,7 @@ export const UserTable: React.FC = () => {
   return (
     <Box bg={bg} borderRadius="xl" boxShadow="sm" overflow="hidden">
       {/* Table Controls */}
-      <HStack justify="space-between" p={4} borderBottom="1px" borderColor={useColorModeValue('gray.200', 'gray.700')}>
+      <HStack justify="space-between" p={4} borderBottom="1px" borderColor={borderColor}>
         <HStack spacing={4}>
           <Text fontSize="sm" color="gray.600">
             Showing {startIndex + 1}-{Math.min(endIndex, filteredUsers.length)} of {filteredUsers.length} users
@@ -210,7 +213,7 @@ export const UserTable: React.FC = () => {
       {/* Table */}
       <Box overflowX="auto">
         <Table variant="simple">
-          <Thead bg={useColorModeValue('gray.50', 'gray.700')}>
+          <Thead bg={headerBg}>
             <Tr>
               <SortableHeader
                 field="userName"
@@ -267,7 +270,7 @@ export const UserTable: React.FC = () => {
                 return (
                   <Tr 
                     key={user.id}
-                    _hover={{ bg: useColorModeValue('gray.50', 'gray.700') }}
+                    _hover={{ bg: hoverBg }}
                     cursor="pointer"
                     onClick={() => handleViewUser(user.id)}
                   >
@@ -340,7 +343,7 @@ export const UserTable: React.FC = () => {
 
       {/* Pagination */}
       {!loading && totalPages > 1 && (
-        <HStack justify="space-between" p={4} borderTop="1px" borderColor={useColorModeValue('gray.200', 'gray.700')}>
+        <HStack justify="space-between" p={4} borderTop="1px" borderColor={borderColor}>
           <Button
             size="sm"
             onClick={() => setCurrentPage(currentPage - 1)}

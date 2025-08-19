@@ -18,9 +18,18 @@ import {
   Center,
   IconButton,
 } from '@chakra-ui/react';
-import { FiArrowLeft, FiMail, FiPhone, FiMapPin, FiCalendar, FiDollarSign } from 'react-icons/fi';
+import { FiArrowLeft, FiMail, FiPhone, FiMapPin, FiCalendar, FiDollarSign, FiUserCheck, FiUserX } from 'react-icons/fi';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useUserStore, type ApiUser } from '../stores/userStore';
+
+const getStatusFromDate = (lastActiveDate: string) => {
+  const lastActive = new Date(lastActiveDate);
+  const daysSinceActive = Math.floor((Date.now() - lastActive.getTime()) / (1000 * 60 * 60 * 24));
+  
+  if (daysSinceActive <= 7) return { status: 'Active', color: 'green' };
+  if (daysSinceActive <= 30) return { status: 'Pending', color: 'orange' };
+  return { status: 'Inactive', color: 'red' };
+};
 
 export const UserDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -30,7 +39,7 @@ export const UserDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   const bg = useColorModeValue('white', 'gray.800');
-  const cardBg = useColorModeValue('gray.50', 'gray.700');
+  const pageBg = useColorModeValue('gray.50', 'gray.900');
 
   useEffect(() => {
     const loadUser = async () => {
@@ -70,7 +79,7 @@ export const UserDetail: React.FC = () => {
   const { status, color } = getStatusFromDate(user.lastActiveDate);
 
   return (
-    <Box bg={useColorModeValue('gray.50', 'gray.900')} minH="100vh">
+    <Box bg={pageBg} minH="100vh">
       <Container maxW="6xl" py={8}>
         <VStack spacing={8} align="stretch">
           {/* Header */}
@@ -288,12 +297,3 @@ export const UserDetail: React.FC = () => {
     </Box>
   );
 };
-
-function getStatusFromDate(lastActiveDate: string) {
-  const lastActive = new Date(lastActiveDate);
-  const daysSinceActive = Math.floor((Date.now() - lastActive.getTime()) / (1000 * 60 * 60 * 24));
-  
-  if (daysSinceActive <= 7) return { status: 'Active', color: 'green' };
-  if (daysSinceActive <= 30) return { status: 'Pending', color: 'orange' };
-  return { status: 'Inactive', color: 'red' };
-}
